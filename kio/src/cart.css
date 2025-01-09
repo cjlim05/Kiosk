@@ -1,0 +1,147 @@
+/* cart.css */
+
+/* 기본 레이아웃 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+/* 장바구니 제목 */
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+/* 테이블 번호 */
+.tableNumber {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* 메뉴 리스트 */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: white;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li span {
+    margin-left: 10px;
+}
+
+/* 수량 조정 버튼 */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-left: 5px;
+    margin-bottom:19px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 가격과 총액 */
+p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 주문 버튼 */
+.order {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.order button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin: 0 10px;
+}
+
+.order button:hover {
+    background-color: #218838;
+}
+
+/* 장바구니 비우기 버튼 */
+.order button:first-child {
+    background-color: #dc3545;
+}
+
+.order button:first-child:hover {
+    background-color: #c82333;
+}
+
+/* 구분선 */
+hr {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+
+
+
+/* modal 스타일 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 500px;
+    height: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.modal-button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}

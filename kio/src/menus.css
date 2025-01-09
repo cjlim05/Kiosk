@@ -1,0 +1,118 @@
+/* 기본 레이아웃 설정 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 메뉴 컨테이너 */
+.menu-container {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 100%;
+}
+
+/* 메뉴 제목 */
+.menu-container h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 메뉴 항목 목록 */
+.menu-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 개별 메뉴 항목 스타일 */
+.menu-list li {
+    font-size: 18px;
+    padding: 15px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    justify-content:space-between;
+}
+
+img{
+    width:120px;
+    height:120px;
+}
+
+/* 메뉴 항목 호버 시 스타일 */
+.menu-list li:hover {
+    background-color: #f2f2f2;
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 메뉴 항목 클릭 시 스타일 */
+.menu-list li:active {
+    background-color: #e0e0e0;
+}
+
+/* 로딩 상태 스타일 */
+.loading {
+    font-size: 18px;
+    text-align: center;
+    color: #666;
+}
+
+/* 버튼 스타일 */
+button {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #388e3c;
+    transform: translateY(0);
+}
+
+
+/* 페이징 */
+.pagination {
+    margin-top: 20px;
+  }
+  
+.pagination button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #ddd;
+}
