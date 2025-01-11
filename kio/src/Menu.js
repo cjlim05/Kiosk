@@ -17,18 +17,18 @@ export default function Menu() {
     };
 
     // Cart에 아이템 추가 함수
-    const addToCart = (coffee) => {
+    const addToCart = (product) => {
         setCart((prevCart) => {
             const newCart = new Map(prevCart); // 기존 장바구니 복사
-            const coffeeId = coffee.id; // 상품 고유 ID
+            const productName = product.name; // 상품 고유 ID
 
-            if (newCart.has(coffeeId)) {
+            if (newCart.has(productName)) {
                 // 상품이 이미 장바구니에 있으면 수량 증가
-                const existingCoffee = newCart.get(coffeeId);
-                existingCoffee.quantity += 1; // 수량 증가
+                const existingProduct = newCart.get(product);
+                existingProduct.quantity += 1; // 수량 증가
             } else {
                 // 상품이 장바구니에 없으면 새로 추가
-                newCart.set(coffeeId, { ...coffee, quantity: 1 });
+                newCart.set(product, { ...product, quantity: 1 });
             }
             return newCart;
         });

@@ -48,7 +48,7 @@ const Dessert = ({ addToCart }) => {
                 {/* 현재 페이지의 디저트 데이터만 렌더링 */}
                 {currentDesserts.map((dessert) => (
                     <li
-                        key={dessert.id}
+                        key={dessert.name}
                         onClick={() => addToCart(dessert)}  
                     >
                         {dessert.name} - ₩{dessert.price}

@@ -45,7 +45,7 @@ const Coffee = ({ addToCart }) => {
           <ul className="menu-list">
             {/* 현재 페이지에 해당하는 메뉴만 표시 */}
             {currentMenus.map((menu) => (
-              <li key={menu.id} onClick={() => addToCart(menu)}>
+              <li key={menu.name} onClick={() => addToCart(menu)}>
                 {menu.name}
                 <img src={`/images/beverage/${menu.imagefile}`} alt="img" />
                 {menu.price}원

@@ -15,11 +15,11 @@ const Cart = ({ cart, setCart }) => {
 
 
     // 수량 조정하기
-    const handleQuantityChange = (menuId, newQuantity) => {
+    const handleQuantityChange = (name, newQuantity) => {
         setCart((prevCart) => {
             const newCart = new Map(prevCart);
-            if (newCart.has(menuId)) {
-                const menu = newCart.get(menuId);
+            if (newCart.has(name)) {
+                const menu = newCart.get(name);
                 if (newQuantity > 0) {
                     menu.quantity = newQuantity;
                 } else {
@@ -31,10 +31,10 @@ const Cart = ({ cart, setCart }) => {
     };
 
     // 메뉴 삭제하기
-    const deleteMenu = (menuId) => {
+    const deleteMenu = (name) => {
         setCart((prevCart) => {
             const newCart = new Map(prevCart);
-            newCart.delete(menuId); // 특정 ID의 상품 삭제
+            newCart.delete(name); // 특정 ID의 상품 삭제
             return newCart;
         });
     };
@@ -91,10 +91,10 @@ const Cart = ({ cart, setCart }) => {
                     return (
                         <li key={menu.id} className="cart-item">
                             {menu.name} - {menu.price}원 x {menu.quantity}
-                            <button onClick={() => handleQuantityChange(menu.id, menu.quantity + 1)} className="cart-button">+</button>
-                            <button onClick={() => handleQuantityChange(menu.id, menu.quantity - 1)} className="cart-button">-</button>
+                            <button onClick={() => handleQuantityChange(menu.name, menu.quantity + 1)} className="cart-button">+</button>
+                            <button onClick={() => handleQuantityChange(menu.name, menu.quantity - 1)} className="cart-button">-</button>
                             <span className="cart-cost">{cost}원</span>
-                            <button onClick={() => deleteMenu(menu.id)} className="delete-button">X</button>
+                            <button onClick={() => deleteMenu(menu.name)} className="delete-button">X</button>
                         </li>
                     );
                 })}
@@ -115,7 +115,7 @@ const Cart = ({ cart, setCart }) => {
                         <h2>주문 내역 확인</h2>
                         <ul>
                             {Array.from(cart.values()).map((menu) => (
-                                <li key={menu.id}>
+                                <li key={menu.name}>
                                     {menu.name} - ₩{menu.price} x {menu.quantity}
                                 </li>
                             ))}
