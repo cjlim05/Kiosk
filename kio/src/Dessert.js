@@ -45,14 +45,13 @@ const Dessert = ({ addToCart }) => {
         <div className="menu-container">
             <h1>디저트 메뉴</h1>
             <ul className="menu-list">
-                {/* 현재 페이지의 디저트 데이터만 렌더링 */}
+                {/* 현재 페이지에 해당하는 메뉴만 표시 */}
                 {currentDesserts.map((dessert) => (
-                    <li
-                        key={dessert.name}
-                        onClick={() => addToCart(dessert)}  
-                    >
-                        {dessert.name} - ₩{dessert.price}
-                    </li>
+                <li key={dessert.name} onClick={() => addToCart(dessert)}>
+                    {dessert.name}
+                    <img src={`/images/beverage/${dessert.imagefile}`} alt="img" />
+                    {dessert.price}원
+                </li>
                 ))}
             </ul>
 

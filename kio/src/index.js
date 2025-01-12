@@ -5,15 +5,20 @@ import Menu from './Menu';
 import GetOrder from './GetOrder';
 import reportWebVitals from './reportWebVitals';
 import Login from './Login';
+import SignUp from './SignUp';
+import Stores from './stores';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-      <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} /> 
         <Route path="/" element={<Menu />} />
         <Route path="/orders" element={<GetOrder />} />
+        <Route path="/signUp" element={<SignUp />} />  
+        <Route path="/stores" element={<Stores />} />  
       </Routes>
     </Router>
   </React.StrictMode>

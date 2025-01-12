@@ -4,17 +4,11 @@ import { useLocation } from 'react-router-dom';
 import './cart.css';
 
 const Cart = ({ cart, setCart }) => {
-
-
-    // 테이블 번호값 가져오기 
     const location = useLocation();
     const { tableNumber } = location.state || {};
 
-    // modal 사용하기
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-
-    // 수량 조정하기
     const handleQuantityChange = (name, newQuantity) => {
         setCart((prevCart) => {
             const newCart = new Map(prevCart);
@@ -23,23 +17,21 @@ const Cart = ({ cart, setCart }) => {
                 if (newQuantity > 0) {
                     menu.quantity = newQuantity;
                 } else {
-                    menu.quantity = 1; // 최소 수량 제한
+                    menu.quantity = 1;
                 }
             }
             return newCart;
         });
     };
 
-    // 메뉴 삭제하기
     const deleteMenu = (name) => {
         setCart((prevCart) => {
             const newCart = new Map(prevCart);
-            newCart.delete(name); // 특정 ID의 상품 삭제
+            newCart.delete(name);
             return newCart;
         });
     };
 
-    // 주문내역 디비로 전송하기
     const sendOrder = async () => {
         const orderData = Array.from(cart.values()).map((menu) => ({
             tableNumber: tableNumber,
@@ -48,35 +40,16 @@ const Cart = ({ cart, setCart }) => {
             price: menu.price,
         }));
 
-        console.log(orderData); // 확인을 위한 콘솔 출력
-
         try {
             const response = await axios.post("http://localhost:8080/api/orders", orderData);
-            console.log(response.data);
             alert("주문이 완료되었습니다!");
-            setCart(new Map()); // 주문 완료 후 장바구니 비우기
-            setIsModalOpen(false); // 모달 닫기
+            setCart(new Map());
+            setIsModalOpen(false);
         } catch (error) {
             console.error(error);
             alert("주문 중 오류가 발생했습니다.");
         }
     };
-
-
-
-    //결제 
- 
-    
-      
-
-    
-
-    
-
-
-
-
-
 
     let totalCost = 0;
 
@@ -84,21 +57,23 @@ const Cart = ({ cart, setCart }) => {
         <div className="cart-container">
             <h2>장바구니</h2>
             <div className="table-number">{tableNumber}번 테이블</div>
-            <ul className="cart-list">
-                {Array.from(cart.values()).map((menu) => {
-                    const cost = menu.price * menu.quantity; // 상품별 비용 계산
-                    totalCost += cost;
-                    return (
-                        <li key={menu.id} className="cart-item">
-                            {menu.name} - {menu.price}원 x {menu.quantity}
-                            <button onClick={() => handleQuantityChange(menu.name, menu.quantity + 1)} className="cart-button">+</button>
-                            <button onClick={() => handleQuantityChange(menu.name, menu.quantity - 1)} className="cart-button">-</button>
-                            <span className="cart-cost">{cost}원</span>
-                            <button onClick={() => deleteMenu(menu.name)} className="delete-button">X</button>
-                        </li>
-                    );
-                })}
-            </ul>
+            <div className="cart-list-container">
+                <ul className="cart-list">
+                    {Array.from(cart.values()).map((menu) => {
+                        const cost = menu.price * menu.quantity;
+                        totalCost += cost;
+                        return (
+                            <li key={menu.id} className="cart-item">
+                                {menu.name} - {menu.price}원 x {menu.quantity}
+                                <button onClick={() => handleQuantityChange(menu.name, menu.quantity + 1)} className="cart-button">+</button>
+                                <button onClick={() => handleQuantityChange(menu.name, menu.quantity - 1)} className="cart-button">-</button>
+                                <span className="cart-cost">{cost}원</span>
+                                <button onClick={() => deleteMenu(menu.name)} className="delete-button">X</button>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
             <div className="cart-summary">
                 <p>-----------------------------------------------------------</p>
                 <p>총액: ₩{totalCost}</p>
@@ -122,12 +97,8 @@ const Cart = ({ cart, setCart }) => {
                         </ul>
                         <p>총액: ₩{totalCost}</p>
                         <div className="modal-buttons">
-                            <button onClick={() => setIsModalOpen(false)} className="modal-button">
-                                취소
-                            </button>
-                            <button onClick={sendOrder} className="modal-button">
-                                결제하기
-                            </button>
+                            <button onClick={() => setIsModalOpen(false)} className="modal-button">취소</button>
+                            <button onClick={sendOrder} className="modal-button">결제하기</button>
                         </div>
                     </div>
                 </div>

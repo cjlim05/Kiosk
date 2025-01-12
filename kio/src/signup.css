@@ -1,0 +1,105 @@
+/* 회원가입 페이지 스타일 */
+
+/* 전체 페이지 중앙 정렬 */
+.signup-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 50px auto; /* 수평으로 중앙 정렬 */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수평 중앙 정렬 */
+  justify-content: center; /* 수직 중앙 정렬 */
+  min-height: 400px; /* 최소 높이 지정하여 충분한 공간 확보 */
+}
+
+/* 제목 스타일 */
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* 폼 스타일 */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* 폼 너비를 컨테이너에 맞춤 */
+}
+
+/* 입력 그룹 */
+.input-group {
+  margin-bottom: 15px;
+}
+
+/* 레이블 스타일 */
+.input-group label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+/* 입력 필드 스타일 */
+.input-group input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  width: 90%; /* 입력 필드가 부모 폼의 너비를 가짐 */
+}
+
+.input-group input:focus {
+  border-color: #4A90E2;
+}
+
+/* 에러 메시지 */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center; /* 에러 메시지 중앙 정렬 */
+}
+
+/* 성공 메시지 */
+.success {
+  color: green;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center; /* 성공 메시지 중앙 정렬 */
+}
+
+/* 버튼 스타일 */
+.button {
+  background-color: #4A90E2;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%; /* 버튼 너비를 100%로 확장 */
+}
+
+.button:hover {
+  background-color: #357ABD;
+}
+
+/* 회원가입 링크 */
+.link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.link a {
+  color: #4A90E2;
+  text-decoration: none;
+}
+
+.link a:hover {
+  text-decoration: underline;
+}
