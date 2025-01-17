@@ -11,6 +11,7 @@ header {
 }
 
 .search-header {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
@@ -19,9 +20,18 @@ header {
     background-color: #f8f8f8;
     border-bottom: 1px solid #ddd;
 }
+.search-button{
+  all: unset; /* 기본 스타일 제거 */
+  cursor: pointer; /* 클릭 가능하게 설정 */
+  display: inline-flex; /* 아이콘 정렬을 위해 사용 */
+  align-items: center;
+  justify-content: center;
+  font-size: 1em; /* 아이콘 크기 조정 */
+  padding-left: 15px;
+}
 
 .search-bar {
-  width: 100%;
+  width: 80%;
   padding: 8px;
   font-size: 16px;
 }

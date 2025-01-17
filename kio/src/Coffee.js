@@ -43,15 +43,19 @@ const Coffee = ({ addToCart }) => {
         <div className="menu-container">
           <h1>커피 메뉴</h1>
           <ul className="menu-list">
-            {/* 현재 페이지에 해당하는 메뉴만 표시 */}
-            {currentMenus.map((menu) => (
-              <li key={menu.name} onClick={() => addToCart(menu)}>
-                {menu.name}
-                <img src={`/images/beverage/${menu.imagefile}`} alt="img" />
-                {menu.price}원
-              </li>
-            ))}
-          </ul>
+          {currentMenus.map((menu) => (
+            <li key={menu.name} onClick={() => addToCart(menu)} className="menu-item">
+              <div className="menu-image-container">
+                <img src={`/images/beverage/${menu.imagefile}`} alt={menu.name} />
+              </div>
+              <div className="menu-info">
+                <p className="menu-name">{menu.name}</p>
+                <p className="menu-price">{menu.price}원</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+
     
           {/* 페이지네이션 버튼 */}
           <div className="pagination">

@@ -48,19 +48,35 @@ li span {
 
 /* 수량 조정 버튼 */
 button {
-    background-color: #007bff;
+    background-color: none;
     color: white;
     border: none;
-    padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
     margin-left: 5px;
     margin-bottom:19px;
+    margin-top:20px
 }
 
-button:hover {
-    background-color: #0056b3;
+.cart-button{
+    align-items: center;
+    background-color: red;
+    margin-top: 20px;
+}
+
+
+.clear-cart-button .checkout-button{
+    color:red;
+}
+
+
+
+/* 장바구니 */
+.cart-container{
+    padding:15px;
+    width:300px;
+    display: initial;
 }
 
 /* 가격과 총액 */

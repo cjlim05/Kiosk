@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom'; // Link 컴포넌트 추가
 import './signup.css'; // 스타일을 추가해 주세요
+
 
 const SignUp = () => {
   const [tableNumber, setTableNumber] = useState('');
@@ -87,6 +89,9 @@ const SignUp = () => {
             className="input"
             placeholder="비밀번호를 다시 입력하세요"
           />
+          <div>
+          <Link to="/login">로그인</Link> {/* 회원가입 링크 추가 */}
+        </div>
         </div>
         {error && <div className="error">{error}</div>}
         {success && <div className="success">{success}</div>}

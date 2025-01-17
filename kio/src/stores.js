@@ -42,6 +42,7 @@ const Stores = () => {
     <div className="stores">
       <header className="search-header">
         <input type="text" placeholder="Search shops..." className="search-bar" />
+        <button class="search-button">🔍</button>
       </header>
       <InfiniteScroll
         dataLength={shops.length}

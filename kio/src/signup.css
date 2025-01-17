@@ -2,7 +2,7 @@
 
 /* 전체 페이지 중앙 정렬 */
 .signup-container {
-  width: 100%;
+  /* width: 100%; */
   max-width: 400px;
   margin: 50px auto; /* 수평으로 중앙 정렬 */
   padding: 20px;

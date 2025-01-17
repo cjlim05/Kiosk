@@ -50,6 +50,32 @@ const Login = () => {
     }
   };
 
+  // 카카오 간 로긍니
+  const handleLogin = () => {
+    Kakao.Auth.login({
+      success: (authObj) => {
+        console.log('카카오 로그인 성공', authObj);
+
+        // 토큰을 백엔드로 전달
+        fetch('http://localhost:8080/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: authObj.access_token }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log('서버 응답:', data))
+          .catch((error) => console.error('에러:', error));
+      },
+      fail: (err) => {
+        console.error('카카오 로그인 실패', err);
+      },
+    });
+  };
+
+
+
+
+
   return (
     <div className="login-container">
       <h2>정보입력</h2>
@@ -81,6 +107,7 @@ const Login = () => {
         </div>
         {error && <div className="error">{error}</div>}
         {success && <div className="success">{success}</div>}
+        <button onClick={handleLogin}>카카오 간편 로그인</button>
         <button type="submit" className="button">
           로그인
         </button>
