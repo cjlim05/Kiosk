@@ -13,9 +13,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean validateUser(String tableNumber, String password) {
+    public boolean validateUser(String username, String password) {
         // 데이터베이스에서 사용자 조회
-        User user = userRepository.findByTableNumber(tableNumber);
+        User user = userRepository.findByUsername(username);
 
         System.out.println(user.getPassword());
         if (user != null && user.getPassword().equals(password)) {

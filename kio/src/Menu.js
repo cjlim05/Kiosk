@@ -10,7 +10,7 @@ export default function Menu() {
     const [cart, setCart] = useState(new Map()); // 초기 상태를 Map으로 설정 새로운 map 설정을 하지않으면 충돌오 오류 발생
     const [isCartOpen, setIsCartOpen] = useState(false);
     const location = useLocation();
-    const { tableNumber } = location.state || {};
+    const { username } = location.state || {};
 
     const handleMenuClick = (menu) => {
         setSelectedMenu(menu);
@@ -39,7 +39,7 @@ export default function Menu() {
     return (
         <div className="main">
             <div className="menus">
-                <div className="tableNumber">{tableNumber}님 환영합니다!</div>
+                <div className="username">{username}님 환영합니다!</div>
                 <div className="menus-click">
                     <p onClick={() => handleMenuClick('coffee')}>커피</p>
                     <p onClick={() => handleMenuClick('dessert')}>디저트</p>

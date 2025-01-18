@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     // 테이블 번호로 사용자 조회
-    User findByTableNumber(String tableNumber);
+    User findByUsername(String username);
 }
 
 //entity와 상호작용하는 데이터베이스 액세스 계층,

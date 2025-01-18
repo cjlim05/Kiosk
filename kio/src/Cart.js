@@ -8,7 +8,7 @@ const Cart = ({ cart, setCart }) => {
 
     // 테이블 번호값 가져오기 
     const location = useLocation();
-    const { tableNumber } = location.state || {};
+    const { username } = location.state || {};
 
     // modal 사용하기
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
@@ -44,7 +44,7 @@ const Cart = ({ cart, setCart }) => {
     // 주문내역 디비로 전송하기
     const sendOrder = async () => {
         const orderData = Array.from(cart.values()).map((menu) => ({
-            tableNumber: tableNumber,
+            username: username,
             itemName: menu.name,
             quantity: menu.quantity,
             price: menu.price,
@@ -69,7 +69,7 @@ const Cart = ({ cart, setCart }) => {
     return (
         <div className="cart-container">
             <h2>장바구니</h2>
-            <div className="table-number">{tableNumber}님의 주문내역</div>
+            <div className="table-number">{username}님의 주문내역</div>
             <div className="cart-list-container">
                 <ul className="cart-list">
                     {Array.from(cart.values()).map((menu) => {

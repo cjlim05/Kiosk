@@ -10,6 +10,13 @@ CREATE TABLE coffee (
     price DECIMAL(10, 2) NOT NULL,        -- 커피 가격
     imagefile VARCHAR(255)
 );
+CREATE TABLE dessert (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,          
+    description TEXT,                    
+    price DECIMAL(10, 2) NOT NULL,
+    imagefile VARCHAR(255)
+);
 
 INSERT INTO coffee (name, description, price, imagefile) VALUES 
 ('아메리카노', '진한 에스프레소와 물로 만든 커피', 3000.00, 'americano.png'),
@@ -28,15 +35,6 @@ INSERT INTO coffee (name, description, price, imagefile) VALUES
 ('티라미수 라떼', '티라미수 향과 맛을 담은 크리미한 라떼', 5800.00, 'tiramisu_latte.png');
 
 
-SELECT * FROM dessert;
-
-CREATE TABLE dessert (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,          
-    description TEXT,                    
-    price DECIMAL(10, 2) NOT NULL,
-    imagefile VARCHAR(255)
-);
 
 CREATE TABLE orders (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -66,4 +64,29 @@ CREATE TABLE user (
 );
 
 INSERT INTO user (tableNumber, password) VALUES (2, 'qwe123');
+
+
+
+CREATE TABLE addresses (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,    -- 고유 식별자
+    road_address VARCHAR(255) NOT NULL,          -- 도로명 주소 (도로명주소)
+    jibun_address VARCHAR(255),                  -- 지번 주소 (지번주소, 선택적으로 저장)
+    postal_code VARCHAR(10) NOT NULL,            -- 우편번호
+    detail_address VARCHAR(255),                 -- 상세주소 (사용자 입력)
+    extra_address VARCHAR(255),                  -- 참고 항목 (예: 건물명)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 생성 일자
+);
+
+CREATE TABLE stores (
+    store_id CHAR(36) PRIMARY KEY,               -- 매장 고유 식별자
+    store_name VARCHAR(255) NOT NULL,            -- 매장 이름
+    address_id INT NOT NULL,                     -- 주소 테이블 참조
+    phone_number VARCHAR(15),                    -- 매장 연락처
+    category VARCHAR(100),                       -- 매장 카테고리
+    status ENUM('active', 'inactive', 'closed') DEFAULT 'inactive', -- 매장 상태
+    FOREIGN KEY (address_id) REFERENCES addresses(address_id)
+);
+
+
+
 

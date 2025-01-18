@@ -20,11 +20,11 @@ public class LoginController {
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        String tableNumber = loginRequest.getTableNumber();
+        String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
 
         // 로그인 검증 서비스 호출
-        boolean isValidUser = userService.validateUser(tableNumber, password);
+        boolean isValidUser = userService.validateUser(username, password);
 
         if (isValidUser) {
             return ResponseEntity.ok().body(Map.of("message", "로그인 성공!"));

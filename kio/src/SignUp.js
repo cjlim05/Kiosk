@@ -4,7 +4,7 @@ import './signup.css'; // 스타일을 추가해 주세요
 
 
 const SignUp = () => {
-  const [tableNumber, setTableNumber] = useState('');
+  const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,7 +13,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!tableNumber || !password || !confirmPassword) {
+    if (!username || !password || !confirmPassword) {
       setError('모든 필드를 입력해주세요.');
       return;
     }
@@ -28,14 +28,14 @@ const SignUp = () => {
     setSuccess('');
 
     try {
-      console.log('회원가입 전송 데이터:', tableNumber, password);
+      console.log('회원가입 전송 데이터:', username, password);
       const response = await fetch('http://localhost:8080/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          tableNumber,
+          username,
           password,
         }),
       });
@@ -58,12 +58,12 @@ const SignUp = () => {
       <h2>회원가입</h2>
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="input-group">
-          <label htmlFor="tableNumber">테이블 번호</label>
+          <label htmlFor="username">테이블 번호</label>
           <input
             type="text"
-            id="tableNumber"
-            value={tableNumber}
-            onChange={(e) => setTableNumber(e.target.value)}
+            id="username"
+            value={username}
+            onChange={(e) => setusername(e.target.value)}
             className="input"
             placeholder="테이블 번호를 입력하세요"
           />
