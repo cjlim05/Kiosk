@@ -44,12 +44,12 @@ const Coffee = ({ addToCart }) => {
           <h1>커피 메뉴</h1>
           <ul className="menu-list">
           {currentMenus.map((menu) => (
-            <li key={menu.name} onClick={() => addToCart(menu)} className="menu-item">
+            <li key={menu.menu} onClick={() => addToCart(menu)} className="menu-item">
               <div className="menu-image-container">
-                <img src={`/images/beverage/${menu.imagefile}`} alt={menu.name} />
+                <img src={`/images/beverage/${menu.imagefile}`} alt={menu.menu} />
               </div>
               <div className="menu-info">
-                <p className="menu-name">{menu.name}</p>
+                <p className="menu-name">{menu.menu}</p>
                 <p className="menu-price">{menu.price}원</p>
               </div>
             </li>

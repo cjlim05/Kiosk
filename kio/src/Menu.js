@@ -19,7 +19,7 @@ export default function Menu() {
     const addToCart = (product) => {
         setCart((prevCart) => {
             const newCart = new Map(prevCart); // 상태 복사
-            const productName = product.name;
+            const productName = product.menu;
     
             if (newCart.has(productName)) {
                 const existingProduct = newCart.get(productName);
