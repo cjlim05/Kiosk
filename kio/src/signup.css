@@ -74,7 +74,7 @@
 }
 
 /* 버튼 스타일 */
-.button {
+.submit-button {
   background-color: #4A90E2;
   color: white;
   font-size: 16px;
@@ -90,15 +90,26 @@
 }
 
 /* 회원가입 링크 */
-.link {
-  text-align: center;
-  margin-top: 15px;
+.signup-link{
+  display:flex;
+  color: black;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
 }
 
-.link a {
-  color: #4A90E2;
-  text-decoration: none;
+.Verify-button{
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
 }
+
 
 .link a:hover {
   text-decoration: underline;

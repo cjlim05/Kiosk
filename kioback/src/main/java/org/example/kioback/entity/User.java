@@ -15,16 +15,12 @@ public class User {
     @Column(name = "user_id")
     private Long userId; // 사용자 고유 ID
 
-    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email; // 이메일
 
-    @Column(name = "phone_number", length = 15)
     private String phoneNumber; // 전화번호
 
-    @Column(name = "username", nullable = false, length = 100)
     private String username; // 사용자 이름
 
-    @Column(name = "password", nullable = false, length = 255)
     private String password; // 비밀번호
 
 
