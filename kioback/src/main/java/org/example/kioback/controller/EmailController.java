@@ -11,9 +11,15 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/send-email")  // 경로가 정확한지 확인
+    @PostMapping("/send-email")
     public String sendEmail(@RequestBody EmailRequest emailRequest) {
-        emailService.sendEmail(emailRequest.getEmail());
-        return "Email sent successfully!";
+        try {
+            // 이메일 주소만 서비스로 전달
+            emailService.sendEmail(emailRequest.getEmail());
+            return "Email sent successfully!";
+        } catch (Exception e) {
+            // 실패 시 처리
+            return "Failed to send email: " + e.getMessage();
+        }
     }
 }

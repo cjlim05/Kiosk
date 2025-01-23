@@ -37,6 +37,7 @@ dependencies {
     // 이메일 전송 위해 라이브러리 추가
     implementation 'jakarta.mail:jakarta.mail-api:2.1.0'  // Jakarta Mail 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-mail:3.1.2' // Spring Boot 메일 스타터
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
