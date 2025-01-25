@@ -1,68 +1,30 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Link 컴포넌트 추가
-import './signup.css'; // 스타일을 추가해 주세요
+import { useNavigate, Link } from 'react-router-dom';
+import './signup.css';
 
 const SignUp = () => {
-  const [username, setusername] = useState('');
-  const [userid, setuserid] = useState('');
+  const [username, setUsername] = useState('');
+  const [userid, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [verificationCode, setVerificationCode] = useState(''); // 인증 코드
+  const [showVerificationCodeInput, setShowVerificationCodeInput] = useState(false); // 인증 코드 입력란 표시 여부
+  const [emailVerified, setEmailVerified] = useState(false); // 이메일 인증 여부
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [emailVerificationMessage, setEmailVerificationMessage] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!userid || !username || !password || !confirmPassword || !email) {
-      setError('모든 필드를 입력해주세요.');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError('비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
-    // 요청을 보내기 전 에러 초기화
-    setError('');
-    setSuccess('');
-
-    try {
-      console.log('회원가입 전송 데이터:', userid, username, password);
-      const response = await fetch('http://localhost:8080/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-
-      if (response.ok) {
-        setSuccess('회원가입 성공! 로그인 페이지로 이동합니다.');
-      } else {
-        const errorData = await response.json();
-        console.error('회원가입 실패:', errorData.message);
-        setError(`회원가입 실패: ${errorData.message}`);
-      }
-    } catch (error) {
-      console.error('서버와 통신 중 오류 발생:', error);
-      setError('서버와 통신하는 중 오류가 발생했습니다.');
-    }
-  };
-
+  // 이메일 인증 요청
   const emailVerify = async () => {
     if (!email) {
-      alert('이메일을 입력해주세요.');
+      setEmailVerificationMessage('이메일을 입력해주세요.');
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/email-verify', {
+      const response = await fetch('http://localhost:8080/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,15 +33,97 @@ const SignUp = () => {
       });
 
       if (response.ok) {
-        setEmailVerificationMessage('이메일 인증 요청이 성공적으로 전송되었습니다. 이메일을 확인해주세요.');
+        setEmailVerificationMessage('인증코드를 확인해주세요');
+        setShowVerificationCodeInput(true); // 인증 코드 입력란 표시
       } else {
         const errorData = await response.json();
-        console.error('이메일 인증 실패:', errorData.message);
         setEmailVerificationMessage(`이메일 인증 실패: ${errorData.message}`);
+        setShowVerificationCodeInput(false);
       }
     } catch (error) {
-      console.error('서버와 통신 중 오류 발생:', error);
       setEmailVerificationMessage('서버와 통신하는 중 오류가 발생했습니다.');
+      setShowVerificationCodeInput(false);
+    }
+  };
+
+  // 인증 코드 검증
+  const verifyCode = async () => {
+    if (!email || !verificationCode) {
+      setEmailVerificationMessage('인증번호를 다시 확인해주세요');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/api/verify-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          code: verificationCode,
+        }),
+      });
+
+      if (response.ok) {
+        setEmailVerificationMessage('인증이 성공적으로 완료되었습니다.');
+        setEmailVerified(true);
+      } else {
+        const errorData = await response.json();
+        setEmailVerificationMessage(`인증 실패: ${errorData.message}`);
+        setEmailVerified(false);
+      }
+    } catch (error) {
+      setEmailVerificationMessage('서버와 통신하는 중 오류가 발생했습니다.');
+      setEmailVerified(false);
+    }
+  };
+
+  // 회원가입 요청
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!userid || !username || !password || !confirmPassword || !email) {
+      setError('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    if (!emailVerified) {
+      setError('이메일 인증을 완료해주세요.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('http://localhost:8080/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          userid,
+          password,
+          email,
+        }),
+      });
+
+      if (response.ok) {
+        setSuccess('회원가입 성공! 로그인 페이지로 이동합니다.');
+        setTimeout(() => navigate('/login'), 2000);
+      } else {
+        const errorData = await response.json();
+        setError(`회원가입 실패: ${errorData.message}`);
+      }
+    } catch (error) {
+      setError('서버와 통신하는 중 오류가 발생했습니다.');
     }
   };
 
@@ -93,7 +137,7 @@ const SignUp = () => {
             type="text"
             id="userid"
             value={userid}
-            onChange={(e) => setuserid(e.target.value)}
+            onChange={(e) => setUserId(e.target.value)}
             className="input"
             placeholder="이름을 입력하세요"
           />
@@ -104,7 +148,7 @@ const SignUp = () => {
             type="text"
             id="username"
             value={username}
-            onChange={(e) => setusername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             className="input"
             placeholder="아이디를 입력하세요"
           />
@@ -142,16 +186,34 @@ const SignUp = () => {
             placeholder="이메일을 입력하세요"
           />
         </div>
-        <button type="button" onClick={emailVerify} className="Verify-button">
+        <button type="button" onClick={emailVerify} className="verify-button">
           이메일 인증하기
         </button>
+        {showVerificationCodeInput && (
+          <>
+            <div className="input-group">
+              <label htmlFor="verificationCode">인증 코드</label>
+              <input
+                type="text"
+                id="verificationCode"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                className="input"
+                placeholder="인증 코드를 입력하세요"
+              />
+            </div>
+            <button type="button" onClick={verifyCode} className="verify-button">
+              인증 코드 확인
+            </button>
+          </>
+        )}
         {emailVerificationMessage && <div className="message">{emailVerificationMessage}</div>}
-        <Link to="/login" className="signup-link">로그인으로 돌아가기</Link>
         {error && <div className="error">{error}</div>}
         {success && <div className="success">{success}</div>}
         <button type="submit" className="submit-button">
           회원가입
         </button>
+        <Link to="/login" className="signup-link">로그인으로 돌아가기</Link>
       </form>
     </div>
   );
