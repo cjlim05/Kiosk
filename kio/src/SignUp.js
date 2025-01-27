@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './signup.css';
 
@@ -8,13 +8,27 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [verificationCode, setVerificationCode] = useState(''); // 인증 코드
-  const [showVerificationCodeInput, setShowVerificationCodeInput] = useState(false); // 인증 코드 입력란 표시 여부
-  const [emailVerified, setEmailVerified] = useState(false); // 이메일 인증 여부
+  const [verificationCode, setVerificationCode] = useState('');
+  const [showVerificationCodeInput, setShowVerificationCodeInput] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [emailVerificationMessage, setEmailVerificationMessage] = useState('');
+  const [timeLeft, setTimeLeft] = useState(0); // 타이머 남은 시간
+
   const navigate = useNavigate();
+
+  // 타이머 관리
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+    if (timeLeft === 0 && showVerificationCodeInput) {
+      setShowVerificationCodeInput(false);
+      setEmailVerificationMessage('인증 코드 입력 시간이 초과되었습니다. 다시 시도해주세요.');
+    }
+  }, [timeLeft, showVerificationCodeInput]);
 
   // 이메일 인증 요청
   const emailVerify = async () => {
@@ -33,8 +47,8 @@ const SignUp = () => {
       });
 
       if (response.ok) {
-        setEmailVerificationMessage('인증코드를 확인해주세요');
-        setShowVerificationCodeInput(true); // 인증 코드 입력란 표시
+        setShowVerificationCodeInput(true);
+        setTimeLeft(300); // 타이머를 5분으로 설정
       } else {
         const errorData = await response.json();
         setEmailVerificationMessage(`이메일 인증 실패: ${errorData.message}`);
@@ -67,6 +81,7 @@ const SignUp = () => {
 
       if (response.ok) {
         setEmailVerificationMessage('인증이 성공적으로 완료되었습니다.');
+        setShowVerificationCodeInput(false); 
         setEmailVerified(true);
       } else {
         const errorData = await response.json();
@@ -205,6 +220,11 @@ const SignUp = () => {
             <button type="button" onClick={verifyCode} className="verify-button">
               인증 코드 확인
             </button>
+            <div className="timer">
+              남은 시간: {Math.floor(timeLeft / 60)}분 {timeLeft % 60}초
+              <br />
+              인증코드를 확인해주세요
+            </div>
           </>
         )}
         {emailVerificationMessage && <div className="message">{emailVerificationMessage}</div>}

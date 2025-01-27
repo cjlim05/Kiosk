@@ -114,3 +114,17 @@
 .link a:hover {
   text-decoration: underline;
 }
+
+/* 타이머 */
+.timer {
+  color: red;
+  font-weight: bold;
+  align-content: center;
+  justify-content: center;
+  display: flex;
+}
+
+.message{
+  color: green;
+  font-weight: bold;
+}
