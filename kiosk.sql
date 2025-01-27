@@ -93,6 +93,18 @@ CREATE TABLE addresses (
 );
 
 
+-- 주소 테이블에 데이터 삽입
+INSERT INTO addresses (road_address, jibun_address, postal_code, detail_address, extra_address) 
+VALUES 
+('123 Main Street', '123-45', '12345', '2층', '가게빌딩'),
+('456 Elm Avenue', '456-78', '67890', '101호', '현대상가');
+
+-- 매장 테이블에 데이터 삽입
+INSERT INTO stores (store_id, store_name, address_id, phone_number, category, status) 
+VALUES 
+(UUID(), '홍길동 카페', 1, '010-1234-5678', '카페', 'active'),
+(UUID(), '이순신 서점', 2, '010-9876-5432', '서점', 'inactive');
+
 
 
 

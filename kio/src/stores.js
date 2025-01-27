@@ -4,63 +4,105 @@ import "./stores.css";
 import axios from "axios";
 
 const Stores = () => {
-  const [shops, setShops] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [page, setPage] = useState(0);
+  const [favorites, setFavorites] = useState([]); // 즐겨찾기 상태
+  const [stores, setStores] = useState([]); // 매장 목록 상태
+  const [page, setPage] = useState(1); // 페이지네이션 상태
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
+  const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
 
-  // Fetch initial data and more data
-  const fetchShops = async (pageNumber) => {
-    try {
-      const response = await axios.get(`/api/shops?page=${pageNumber}`);
-      const data = response.data;
-      setShops((prev) => [...prev, ...data]);
-    } catch (error) {
-      console.error("Error fetching shops: ", error);
-    }
-  };
-
+  // 초기 데이터 로딩
   useEffect(() => {
-    fetchShops(0); // Load initial data
+    fetchStores();
   }, []);
 
-  const fetchMoreData = () => {
-    const nextPage = page + 1;
-    fetchShops(nextPage);
-    setPage(nextPage);
+  // 매장 정보 가져오기
+  const fetchStores = (page = 1, query = "") => {
+    axios
+      .get(`http://localhost:8080/api/store?page=${page}&query=${query}`)
+      .then((response) => {
+        if (page === 1) {
+          setStores(response.data); // 초기 데이터 설정
+        } else {
+          setStores((prevStores) => [...prevStores, ...response.data]); // 추가 데이터 설정
+        }
+        setPage(page + 1); // 다음 페이지로 업데이트
+        if (response.data.length === 0) {
+          setHasMore(false); // 더 불러올 데이터가 없음
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
 
+  // 추가 데이터 불러오기
+  const fetchMoreData = () => {
+    fetchStores(page, searchQuery);
+  };
+
+  // 즐겨찾기 토글
   const toggleFavorite = (id) => {
     setFavorites((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((fav) => fav !== id);
+      const newFavorites = new Set(prev);
+      if (newFavorites.has(id)) {
+        newFavorites.delete(id);
+      } else {
+        newFavorites.add(id);
       }
-      return [...prev, id];
+      return [...newFavorites];
     });
+  };
+
+  // 검색어 변경 핸들러
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // 검색 실행
+  const handleSearchSubmit = () => {
+    setPage(1); // 페이지 초기화
+    setHasMore(true); // 더 불러올 데이터가 있다고 가정
+    fetchStores(1, searchQuery); // 검색어로 초기 데이터 로딩
   };
 
   return (
     <div className="stores">
       <header className="search-header">
-        <input type="text" placeholder="Search shops..." className="search-bar" />
-        <button class="search-button">🔍</button>
+        <input
+          type="text"
+          placeholder="Search stores..."
+          className="search-bar"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+        <button className="search-button" onClick={handleSearchSubmit}>
+          🔍
+        </button>
       </header>
       <InfiniteScroll
-        dataLength={shops.length}
+        dataLength={stores.length}
         next={fetchMoreData}
-        hasMore={true}
+        hasMore={hasMore}
         loader={<h4>Loading...</h4>}
+        endMessage={<p>No more stores to load.</p>}
         className="shop-list"
       >
-        {shops.map((shop) => (
-          <div key={shop.id} className="shop-card">
-            <img src={shop.image} alt={shop.name} className="shop-image" />
+        {stores.map((shop) => (
+          <div key={shop.storeId} className="shop-card">
+            <img
+              src={shop.logoImg || "https://via.placeholder.com/150"}
+              alt={shop.storeName}
+              className="shop-image"
+            />
             <div className="shop-info">
-              <h3>{shop.name}</h3>
-              <p>{shop.address}</p>
+              <h3>{shop.storeName}</h3>
+              <p>{shop.detailAddress}</p>
             </div>
             <button
-              className={`favorite-btn ${favorites.includes(shop.id) ? "favorited" : ""}`}
-              onClick={() => toggleFavorite(shop.id)}
+              className={`favorite-btn ${
+                favorites.includes(shop.storeId) ? "favorited" : ""
+              }`}
+              onClick={() => toggleFavorite(shop.storeId)}
             >
               ❤️
             </button>
