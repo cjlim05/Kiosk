@@ -70,41 +70,51 @@ CREATE TABLE users (
 
 
 
--- 가게 정보 테이블 
-CREATE TABLE stores (
-    store_id CHAR(36) PRIMARY KEY,               -- 매장 고유 식별자
-    store_name VARCHAR(255) NOT NULL,            -- 매장 이름
-    address_id INT NOT NULL,                     -- 주소 테이블 참조
-    phone_number VARCHAR(15),                    -- 매장 연락처
-    category VARCHAR(100),                       -- 매장 카테고리
-    status ENUM('active', 'inactive', 'closed') DEFAULT 'inactive', -- 매장 상태
-    FOREIGN KEY (address_id) REFERENCES addresses(address_id)
+
+CREATE TABLE store (
+    store_id INT AUTO_INCREMENT PRIMARY KEY,
+    store_name VARCHAR(255) NOT NULL,
+    city VARCHAR(100),  -- 시
+    district VARCHAR(100),  -- 구
+    neighborhood VARCHAR(100),  -- 동
+    detail_address TEXT,  -- 상세 주소
+    postal_code VARCHAR(10), -- 우편번호 
+    phone_number VARCHAR(15),
+    category VARCHAR(100),
+    logoimg VARCHAR(255)
 );
 
--- 가게 주소 담은 테이블
-CREATE TABLE addresses (
-    address_id INT AUTO_INCREMENT PRIMARY KEY,    -- 고유 식별자
-    road_address VARCHAR(255) NOT NULL,          -- 도로명 주소 (도로명주소)
-    jibun_address VARCHAR(255),                  -- 지번 주소 (지번주소, 선택적으로 저장)
-    postal_code VARCHAR(10) NOT NULL,            -- 우편번호
-    detail_address VARCHAR(255),                 -- 상세주소 (사용자 입력)
-    extra_address VARCHAR(255),                  -- 참고 항목 (예: 건물명)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 생성 일자
+INSERT INTO store (
+    store_name, 
+    city, 
+    district, 
+    neighborhood, 
+    detail_address, 
+    postal_code, 
+    phone_number, 
+    category, 
+    logoimg
+) VALUES
+(
+    'Happy Coffee', 
+    'Seoul', 
+    'Gangnam-gu', 
+    'Yeoksam-dong', 
+    '123 Gangnam-daero', 
+    '06237', 
+    '010-1234-5678', 
+    'Cafe', 
+    'https://example.com/logo1.png'
+),
+(
+    'Tech Mart', 
+    'Busan', 
+    'Haeundae-gu', 
+    'U-dong', 
+    '456 Haeundae-ro', 
+    '48093', 
+    '051-9876-5432', 
+    'Electronics', 
+    'https://example.com/logo2.png'
 );
-
-
--- 주소 테이블에 데이터 삽입
-INSERT INTO addresses (road_address, jibun_address, postal_code, detail_address, extra_address) 
-VALUES 
-('123 Main Street', '123-45', '12345', '2층', '가게빌딩'),
-('456 Elm Avenue', '456-78', '67890', '101호', '현대상가');
-
--- 매장 테이블에 데이터 삽입
-INSERT INTO stores (store_id, store_name, address_id, phone_number, category, status) 
-VALUES 
-(UUID(), '홍길동 카페', 1, '010-1234-5678', '카페', 'active'),
-(UUID(), '이순신 서점', 2, '010-9876-5432', '서점', 'inactive');
-
-
-
 

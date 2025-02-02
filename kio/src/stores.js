@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "./stores.css";
 import axios from "axios";
+import { Link } from 'react-router-dom';
+
+
+//하트 ui
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+
 
 const Stores = () => {
   const [favorites, setFavorites] = useState([]); // 즐겨찾기 상태
@@ -89,22 +97,25 @@ const Stores = () => {
       >
         {stores.map((shop) => (
           <div key={shop.storeId} className="shop-card">
-            <img
-              src={shop.logoImg || "https://via.placeholder.com/150"}
-              alt={shop.storeName}
-              className="shop-image"
-            />
-            <div className="shop-info">
-              <h3>{shop.storeName}</h3>
-              <p>{shop.detailAddress}</p>
-            </div>
+            <Link to={`/store/${shop.storeId}`} className="shop-link">
+              <img
+                src={shop.logoImg || "https://via.placeholder.com/150"}
+                alt={shop.storeName}
+                className="shop-image"
+              />
+              <div className="shop-info">
+                <h3>{shop.storeName}</h3>
+                <p>{shop.detailAddress}</p>
+              </div>
+            </Link>
             <button
-              className={`favorite-btn ${
-                favorites.includes(shop.storeId) ? "favorited" : ""
-              }`}
+              className="favorite-btn"
               onClick={() => toggleFavorite(shop.storeId)}
             >
-              ❤️
+              <FontAwesomeIcon
+                icon={favorites.includes(shop.storeId) ? solidHeart : regularHeart}
+                color={favorites.includes(shop.storeId) ? "red" : "#ccc"}
+              />
             </button>
           </div>
         ))}

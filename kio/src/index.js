@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import Login from './Login';
 import SignUp from './SignUp';
 import Stores from './stores';
-
+import StoreDetail from './StoreDetail';
 
 
 
@@ -21,7 +21,8 @@ root.render(
         <Route path="/menu" element={<Menu />} />
         <Route path="/orders" element={<GetOrder />} />
         <Route path="/signUp" element={<SignUp />} />  
-        <Route path="/stores" element={<Stores />} />  
+        <Route path="/stores" element={<Stores />} />
+        <Route path="/store/:storeId" element={<StoreDetail />} />  
       </Routes>
     </Router>
   </React.StrictMode>
