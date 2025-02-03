@@ -4,12 +4,10 @@ import "./stores.css";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
-
-//하트 ui
+// 하트 UI
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
-
 
 const Stores = () => {
   const [favorites, setFavorites] = useState([]); // 즐겨찾기 상태
@@ -17,11 +15,28 @@ const Stores = () => {
   const [page, setPage] = useState(1); // 페이지네이션 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
   const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
 
   // 초기 데이터 로딩
   useEffect(() => {
     fetchStores();
+    checkSession(); // 세션 확인
   }, []);
+
+  // 세션 확인 및 생성
+  const checkSession = () => {
+    axios
+      .get("http://localhost:8080/api/session", { withCredentials: true })
+      .then((response) => {
+        if (response.data.isLoggedIn) {
+          setIsLoggedIn(true);
+          setFavorites(response.data.favorites || []);
+        }
+      })
+      .catch((error) => {
+        console.error("세션 확인 실패:", error);
+      });
+  };
 
   // 매장 정보 가져오기
   const fetchStores = (page = 1, query = "") => {
@@ -29,13 +44,13 @@ const Stores = () => {
       .get(`http://localhost:8080/api/store?page=${page}&query=${query}`)
       .then((response) => {
         if (page === 1) {
-          setStores(response.data); // 초기 데이터 설정
+          setStores(response.data);
         } else {
-          setStores((prevStores) => [...prevStores, ...response.data]); // 추가 데이터 설정
+          setStores((prevStores) => [...prevStores, ...response.data]);
         }
-        setPage(page + 1); // 다음 페이지로 업데이트
+        setPage(page + 1);
         if (response.data.length === 0) {
-          setHasMore(false); // 더 불러올 데이터가 없음
+          setHasMore(false);
         }
       })
       .catch((error) => {
@@ -48,8 +63,12 @@ const Stores = () => {
     fetchStores(page, searchQuery);
   };
 
-  // 즐겨찾기 토글
+  // 즐겨찾기 토글 (세션과 연동)
   const toggleFavorite = (id) => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
     setFavorites((prev) => {
       const newFavorites = new Set(prev);
       if (newFavorites.has(id)) {
@@ -57,6 +76,17 @@ const Stores = () => {
       } else {
         newFavorites.add(id);
       }
+
+      // 세션 업데이트
+      axios
+        .post("http://localhost:8080/api/session/favorites", 
+          { favorites: [...newFavorites] },
+          { withCredentials: true }
+        )
+        .catch((error) => {
+          console.error("즐겨찾기 업데이트 실패:", error);
+        });
+
       return [...newFavorites];
     });
   };
@@ -68,9 +98,9 @@ const Stores = () => {
 
   // 검색 실행
   const handleSearchSubmit = () => {
-    setPage(1); // 페이지 초기화
-    setHasMore(true); // 더 불러올 데이터가 있다고 가정
-    fetchStores(1, searchQuery); // 검색어로 초기 데이터 로딩
+    setPage(1);
+    setHasMore(true);
+    fetchStores(1, searchQuery);
   };
 
   return (
@@ -122,15 +152,9 @@ const Stores = () => {
       </InfiniteScroll>
       <footer className="footer-fixed">
         <nav className="bottom-nav">
-          <a href="/search" className="nav-item">
-            🔍
-          </a>
-          <a href="/favorites" className="nav-item">
-            ❤️
-          </a>
-          <a href="/account" className="nav-item">
-            👤
-          </a>
+          <a href="/search" className="nav-item">🔍</a>
+          <a href="/favorites" className="nav-item">❤️</a>
+          <a href="/account" className="nav-item">👤</a>
         </nav>
       </footer>
     </div>

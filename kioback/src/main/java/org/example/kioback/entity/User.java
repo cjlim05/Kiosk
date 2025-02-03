@@ -17,6 +17,7 @@ public class User {
 
     private String email; // 이메일
 
+    @Column(name = "phone_number")
     private String phoneNumber; // 전화번호
 
     private String username; // 사용자 이름
