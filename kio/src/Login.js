@@ -76,14 +76,14 @@ const Login = () => {
       <h2>정보입력</h2>
       <form onSubmit={handleSubmit} className="login-form">
         <div className="input-group">
-          <label htmlFor="username">테이블 번호</label>
+          <label htmlFor="username">아이디</label>
           <input
             type="text"
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="input"
-            placeholder="테이블 번호를 입력하세요"
+            placeholder="아이디를 입력하세요"
           />
         </div>
         <div className="input-group">

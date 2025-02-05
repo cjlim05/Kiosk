@@ -1,16 +1,24 @@
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const StoreDetail = () => {
-  const { storeId } = useParams(); // URL에서 storeId를 가져옴
+  const { storeId } = useParams();
+  const [store, setStore] = useState(null);
 
-  // 여기서 storeId를 사용하여 상점의 상세 정보를 가져오는 로직을 구현
-  // 예: API 호출 또는 stores 배열에서 해당 상점 정보를 찾는 로직
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/stores/${storeId}`)
+      .then((response) => response.json())
+      .then((data) => setStore(data))
+      .catch((error) => console.error("Error fetching store data:", error));
+  }, [storeId]);
+
+  if (!store) return <p>로딩 중...</p>;
 
   return (
     <div>
-      <h1>상점 상세 페이지</h1>
-      <p>상점 ID: {storeId}</p>
-      {/* 상점의 상세 정보를 여기에 표시 */}
+      <h1>{store.storeName}</h1>
+      <p>주소: {store.detialAddress}</p>
+      <p>설명: {store.category}</p>
     </div>
   );
 };

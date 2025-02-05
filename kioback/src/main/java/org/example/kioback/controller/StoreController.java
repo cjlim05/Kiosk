@@ -19,8 +19,12 @@ public class StoreController {
         this.storeRepository = storeRepository;
     }
 
+
+
     @GetMapping
     public List<Store> getAllStores() {
         return storeRepository.findAll();
     }
+
+
 }
