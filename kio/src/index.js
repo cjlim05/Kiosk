@@ -8,6 +8,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import Stores from './stores';
 import StoreDetail from './StoreDetail';
+import MenuDetail from './MenuDetail';
 
 
 
@@ -23,6 +24,7 @@ root.render(
         <Route path="/signUp" element={<SignUp />} />  
         <Route path="/stores" element={<Stores />} />
         <Route path="/store/:storeId" element={<StoreDetail />} />  
+        <Route path="/MenuDetail" element={<MenuDetail />} />
       </Routes>
     </Router>
   </React.StrictMode>
