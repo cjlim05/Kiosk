@@ -77,9 +77,9 @@ const Cart = ({ cart, setCart }) => {
                         totalCost += cost;
                         return (
                             <li key={menu.menu} className="cart-item">
-                                {menu.menu} : {menu.price}원 x {menu.quantity}
-                                <button onClick={() => handleQuantityChange(menu.menu, menu.quantity + 1)} className="cart-button">+</button>
-                                <button onClick={() => handleQuantityChange(menu.menu, menu.quantity - 1)} className="cart-button">-</button>
+                                {menu.menu_name} : {menu.price}원 x {menu.quantity}
+                                <button onClick={() => handleQuantityChange(menu.menu_name, menu.quantity + 1)} className="cart-button">+</button>
+                                <button onClick={() => handleQuantityChange(menu.menu_name, menu.quantity - 1)} className="cart-button">-</button>
                                 <span className="cart-cost">{cost}원</span>
                                 <button onClick={() => deleteMenu(menu.menu)} className="delete-button">X</button>
                             </li>

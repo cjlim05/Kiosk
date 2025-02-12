@@ -127,6 +127,7 @@ const Stores = () => {
       >
         {stores.map((shop) => (
           <div key={shop.storeId} className="shop-card">
+            {/* 상세페이지 링크 */}
             <Link to={`/store/${shop.storeId}`} className="shop-link">
               <img
                 src={shop.logoImg || "https://via.placeholder.com/150"}

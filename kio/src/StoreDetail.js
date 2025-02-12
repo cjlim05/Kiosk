@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Menu from "./Menu";
 
 const StoreDetail = () => {
   const { storeId } = useParams();
@@ -19,6 +20,7 @@ const StoreDetail = () => {
       <h1>{store.storeName}</h1>
       <p>주소: {store.detialAddress}</p>
       <p>설명: {store.category}</p>
+      <Menu />
     </div>
   );
 };

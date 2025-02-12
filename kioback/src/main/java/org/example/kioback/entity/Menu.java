@@ -14,7 +14,7 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long menu_id;
 
-    private Long store_id;
+    private String store_id;
     private String category;
 
     private String menu_name;
